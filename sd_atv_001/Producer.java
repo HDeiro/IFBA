@@ -10,23 +10,19 @@ public class Producer extends Thread {
         contador = 0;
     }
 
+    @Override
     public void run() {
-        try {
-            while (true) {
-                while (a.itemCount == 10)
-                    sleep(100);
-                    
-                contador ++;
-                a.buffer.add(contador);
-                a.itemCount++;
-                
-                System.out.println("Produtor: produzindo o item " + contador);
-                for (int i =0;i<10000;i++);
-                    
-                a.sinaleira.up();
-            }
-        } catch(InterruptedException e) {
-            e.printStackTrace(); 
+        while (true) {
+            a.vazio.down();
+            a.sinaleira.down();
+            
+            contador++;
+            a.buffer.add(contador);
+            
+            a.sinaleira.up();            
+            a.cheio.up();
+
+            System.err.println("Produtor: produzindo o item " + contador);
         }
     }
 }

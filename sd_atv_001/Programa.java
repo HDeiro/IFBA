@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class Programa {
     
-    int itemCount;
-    int compartilhada;
     ArrayList buffer;
-    Semaphore sinaleira;
+    Semaphore sinaleira;    
+    Semaphore cheio;
+    Semaphore vazio;
     
     Programa () {
-        itemCount = 0;
         buffer = new ArrayList(); 
-        sinaleira = new Semaphore();
+        sinaleira = new Semaphore(1);        
+        vazio = new Semaphore(10);
+        cheio = new Semaphore();
     }
     
     public static void main(String[] args) {
@@ -26,8 +27,7 @@ public class Programa {
             
         Consumer c1 = new Consumer(this);
         Producer p1 = new Producer(this);
-           
-            
+                       
         p.start();            
         c.start();
         p1.start();

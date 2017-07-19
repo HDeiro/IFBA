@@ -1,3 +1,6 @@
+package sd_atv_001;
+
+
 class UmaThread extends Thread {
     private int delay;
         

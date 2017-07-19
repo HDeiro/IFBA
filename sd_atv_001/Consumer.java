@@ -8,22 +8,21 @@ public class Consumer extends Thread {
         a = x;
     }
 
+    @Override
     public void run() {
-        try {
-            while (true) {
-                while (a.itemCount == 0)
-                    sleep(100);
-                       
-                int item;
-                a.sinaleira.down();
-                item = (Integer) a.buffer.get(0);
-                a.buffer.remove(0);
-                a.itemCount--;
-                System.out.println("consumer: consuming item "+item+" of "+a.buffer.size());
-                for (int i =0;i<10000;i++);
-            }
-        } catch(InterruptedException e) {
-            e.printStackTrace(); 
+        while (true) {
+            a.cheio.down();
+            a.sinaleira.down();
+            
+            int item;
+            item = (Integer) a.buffer.get(0);
+            a.buffer.remove(0);
+            
+            a.sinaleira.up();
+            a.vazio.up();
+            
+            
+            System.out.println("consumer: consuming item "+item+" of "+a.buffer.size());
         }
     }
 }

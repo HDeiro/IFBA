@@ -24,6 +24,6 @@ public class Semaphore {
 
     public synchronized void up() {
         count++;
-        notify();
+        notifyAll();
     }
 }
